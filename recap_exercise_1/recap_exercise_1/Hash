@@ -1,0 +1,192 @@
+[0m[1;32mHash < Object[m
+
+------------------------------------------------------------------------------
+[1;32mIncludes:[m
+Enumerable (from ruby core)
+
+(from ruby core)
+------------------------------------------------------------------------------
+A Hash is a dictionary-like collection of unique keys and their values. Also
+called associative arrays, they are similar to Arrays, but where an Array uses
+integers as its index, a Hash allows you to use any object type.
+
+Hashes enumerate their values in the order that the corresponding keys were
+inserted.
+
+A Hash can be easily created by using its implicit form:
+
+  grades = { "Jane Doe" => 10, "Jim Doe" => 6 }
+
+Hashes allow an alternate syntax for keys that are symbols. Instead of
+
+  options = { :font_size => 10, :font_family => "Arial" }
+
+You could write it as:
+
+  options = { font_size: 10, font_family: "Arial" }
+
+Each named key is a symbol you can access in hash:
+
+  options[:font_size]  # => 10
+
+A Hash can also be created through its ::new method:
+
+  grades = Hash.new
+  grades["Dorothy Doe"] = 9
+
+Hashes have a [4mdefault value[m that is returned when accessing keys that
+do not exist in the hash. If no default is set [7mnil[m is used. You can set
+the default value by sending it as an argument to Hash.new:
+
+  grades = Hash.new(0)
+
+Or by using the #default= method:
+
+  grades = {"Timmy Doe" => 8}
+  grades.default = 0
+
+Accessing a value in a Hash requires using its key:
+
+  puts grades["Jane Doe"] # => 0
+
+[32mCommon Uses[m
+
+Hashes are an easy way to represent data structures, such as
+
+  books         = {}
+  books[:matz]  = "The Ruby Programming Language"
+  books[:black] = "The Well-Grounded Rubyist"
+
+Hashes are also commonly used as a way to have named parameters in functions.
+Note that no brackets are used below. If a hash is the last argument on a
+method call, no braces are needed, thus creating a really clean interface:
+
+  Person.create(name: "John Doe", age: 27)
+
+  def self.create(params)
+    @name = params[:name]
+    @age  = params[:age]
+  end
+
+[32mHash Keys[m
+
+Two objects refer to the same hash key when their [7mhash[m value is
+identical and the two objects are [7meql?[m to each other.
+
+A user-defined class may be used as a hash key if the [7mhash[m and
+[7meql?[m methods are overridden to provide meaningful behavior.  By
+default, separate instances refer to separate hash keys.
+
+A typical implementation of [7mhash[m is based on the object's data while
+[7meql?[m is usually aliased to the overridden [7m==[m method:
+
+  class Book
+    attr_reader :author, :title
+
+    def initialize(author, title)
+      @author = author
+      @title = title
+    end
+
+    def ==(other)
+      self.class === other and
+        other.author == @author and
+        other.title == @title
+    end
+
+    alias eql? ==
+
+    def hash
+      @author.hash ^ @title.hash # XOR
+    end
+  end
+
+  book1 = Book.new 'matz', 'Ruby in a Nutshell'
+  book2 = Book.new 'matz', 'Ruby in a Nutshell'
+
+  reviews = {}
+
+  reviews[book1] = 'Great reference!'
+  reviews[book2] = 'Nice and compact!'
+
+  reviews.length #=> 1
+
+See also Object#hash and Object#eql?
+------------------------------------------------------------------------------
+[1;32mClass methods:[m
+
+  []
+  new
+  try_convert
+
+[1;32mInstance methods:[m
+
+  <
+  <=
+  ==
+  >
+  >=
+  []
+  []=
+  any?
+  assoc
+  clear
+  compact
+  compact!
+  compare_by_identity
+  compare_by_identity?
+  default
+  default=
+  default_proc
+  default_proc=
+  delete
+  delete_if
+  dig
+  each
+  each_key
+  each_pair
+  each_value
+  empty?
+  eql?
+  fetch
+  fetch_values
+  flatten
+  has_key?
+  has_value?
+  hash
+  include?
+  inspect
+  invert
+  keep_if
+  key
+  key?
+  keys
+  length
+  member?
+  merge
+  merge!
+  rassoc
+  rehash
+  reject
+  reject!
+  replace
+  select
+  select!
+  shift
+  size
+  slice
+  store
+  to_a
+  to_h
+  to_hash
+  to_proc
+  to_s
+  transform_keys
+  transform_keys!
+  transform_values
+  transform_values!
+  update
+  value?
+  values
+  values_at
+
